@@ -1,0 +1,15 @@
+input {
+  height: 28px;
+  padding: 0 6px;
+  border-radius: $base-border-radius;
+  border: solid 1px $color-grey-100;
+  font-family: $base-font-family;
+  line-height: $base-line-height;
+  font-size: 14px;
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+    border-color: $color-primary-500;
+  }
+}

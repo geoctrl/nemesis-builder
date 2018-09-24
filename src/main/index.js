@@ -1,6 +1,14 @@
 'use strict'
-
 import { app, BrowserWindow } from 'electron'
+import { setMainMenu } from './main-menu';
+import Store from 'electron-store';
+const store = new Store({
+  name: 'appConfig',
+  defaults: {
+    windowBounds: {},
+    recentProjects: [],
+  }
+});
 
 /**
  * Set `__static` path to static files in production
@@ -16,18 +24,40 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function createWindow () {
-  /**
-   * Initial window options
-   */
-  mainWindow = new BrowserWindow({
-    titleBarStyle: 'hidden',
-  })
+  let { width, height, x, y } = store.get('windowBounds');
+  const browserWindowOptions = {
+    backgroundColor: '#ffffff',
+    titleBarStyle: 'hiddenInset',
+  };
+
+  if (!isNaN(width) && !isNaN(height)) {
+    browserWindowOptions.width = width;
+    browserWindowOptions.height = height;
+  }
+
+  if (!isNaN(x) && !isNaN(y)) {
+    browserWindowOptions.x = x;
+    browserWindowOptions.y = y;
+  }
+
+  mainWindow = new BrowserWindow(browserWindowOptions);
+
+  mainWindow.on('resize', () => {
+    let { width, height, x, y } = mainWindow.getBounds();
+    store.set('windowBounds', { width, height, x, y });
+  });
+
+  mainWindow.on('move', () => {
+    let { width, height, x, y } = mainWindow.getBounds();
+    store.set('windowBounds', { width, height, x, y });
+  });
 
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
     mainWindow = null
-  })
+  });
+  setMainMenu();
 }
 
 app.on('ready', createWindow)

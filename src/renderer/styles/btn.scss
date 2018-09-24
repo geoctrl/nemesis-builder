@@ -1,0 +1,38 @@
+.btn {
+  border-radius: 100px;
+  background-color: $color-primary-500;
+  color: #fff;
+  outline: none;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  padding: .282rem .7rem;
+  border: solid 2px transparent;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease, border 200ms ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &.btn--lg {
+    padding: .4688rem 1.2rem;
+    font-size: 18px;
+  }
+
+  &.btn__primary {
+
+  }
+
+  &.btn__primary-outline {
+    border-color: $color-primary-500;
+    background-color: transparent;
+    color: $color-primary-500;
+
+    &:hover {
+      background-color: $color-primary-500;
+      color: #fff;
+    }
+  }
+}
